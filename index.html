@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      window.onload = function () {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        alert(userAgent);
+        // 모바일 기기 감지
+        if (/android/i.test(userAgent)) {
+          location.href = "./mo/index.html";
+        } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          location.href = "./mo/index.html";
+        }
+        // 태블릿 기기 감지
+        else if (/Tablet|iPad/i.test(userAgent)) {
+          location.href = "./pc/index.html";
+        }
+        // PC 감지
+        else {
+          location.href = "./pc/index.html";
+        }
+      };
+    </script>
+  </body>
+</html>
