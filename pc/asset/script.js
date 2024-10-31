@@ -3,6 +3,17 @@ apx.addEventListener("pageBubble", function (Event, ctx) {
     // Page Craete
     var onPageCreate = function () {
       onCustomProgressBar();
+      var cursorUrl = "./asset/mouse.png";
+      document.body.style.cursor = "url('" + cursorUrl + "'), auto";
+      $W("",undefined,{multiple:true,like:true}).forEach(function(wgt){
+          if( wgt.get("label").indexOf("btn") > -1 ) {
+              setTimeout(function(){
+                wgt.tag.style.cursor = "url('" + cursorUrl + "'), auto";           
+              }, 1000);
+          } else {
+            wgt.tag.style.cursor = "url('" + cursorUrl + "'), auto";
+          }
+      });
     };
 
     // Page Run
@@ -34,6 +45,7 @@ apx.addEventListener("pageBubble", function (Event, ctx) {
       ) {
         onComplete();
       }
+      $W("a$click").changeState("Play");
     };
 
     // 결과 도출
@@ -41,13 +53,12 @@ apx.addEventListener("pageBubble", function (Event, ctx) {
       var result = findMaxKey();
       var ending = $W("mlc$ending");
       var resetButton = $W("i$reset");
-      // var endingProgress = document.getElementById("endingProgress");
-    //   var additionalvalue = 1;
-    //   var id = setInterval(frame, 100);
 
       $W("mlc$main").changeState("ending");
       ending.changeState(result);
       $W("mlc$progress").set("visibility", "hidden");
+
+      $W("a$loading").changeState("Play");
 
         $W("r$progress").sizeTo(860, 30, {timing:"linear 2000ms", onEnd:function(){
             $W("mlc$endingMsg").set("visibility", "hidden");
@@ -55,17 +66,9 @@ apx.addEventListener("pageBubble", function (Event, ctx) {
             resetButton.opacityTo(1, { timing: "ease-in-out 1000ms" , onEnd:function(){
                 resetButton.set("visibility","visible");
             }});
+            $W("a$loading").changeState("Stop");
         }});
 
-    //   function frame() {
-    //     if (endingProgress.value < 100) {
-    //       endingProgress.value = endingProgress.value + additionalvalue;
-    //     } else {
-    //       clearInterval(id);
-    //       $W("mlc$endingMsg").set("visibility", "hidden");
-    //       ending.opacityTo(1, { timing: "ease-in-out 1000ms" });
-    //     }
-    //   }
     };
 
     // 비디오 끝난 뒤
@@ -187,6 +190,7 @@ apx.addEventListener("pageBubble", function (Event, ctx) {
         if (label.indexOf("btn$q") > -1) {
           onClickButton();
         } else if (label == "i$reset") {
+          $W("a$click").changeState("Play");
           reset();
         }
       } else if (Event.type == "Media") {
@@ -195,6 +199,8 @@ apx.addEventListener("pageBubble", function (Event, ctx) {
             onEndVideo();
           }
         }
+      } else if( Event.type == "Mouse Over") {
+          document.body.style.cursor = "url('https://goodbye-flash.com/kmong/%EA%B9%80%EC%A7%80%EC%9C%A0/town/asset/mouse.png'), pointer";
       }
     }
   }
